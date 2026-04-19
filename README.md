@@ -1,79 +1,72 @@
-<<<<<<< HEAD
-# React + TypeScript + Vite
+# Calendar Timetable
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small **React** web app for planning a **weekly timetable** (Monday–Sunday) and viewing a **2026 monthly calendar** that lines up with the same weekday logic. Everything is stored **locally in your browser**; there is no server or account.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Weekly grid** — Time slots from **07:00** to **21:30** in **30-minute** steps. Click an empty cell to add a session, or click a block to edit or delete it.
+- **Overlap checks** — Saving is blocked if a new or edited session overlaps another on the same day.
+- **2026 calendar** — Switch with the header tabs to see all twelve months of **2026** (Monday-first weeks). Days that fall on a weekday with at least one timetable session show colored dots (session colors).
+- **Persistence** — Sessions are saved to `localStorage` under the key `calendar-timetable-sessions-v1`.
+- **Theme** — Gold / blue / black palette with automatic **light** and **dark** styles based on the system preference.
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite 8](https://vite.dev/)
+- [ESLint 9](https://eslint.org/) (flat config)
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [Node.js](https://nodejs.org/) (current LTS is a good choice)
+- npm (comes with Node)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Clone the repository, install dependencies, and start the dev server:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <your-repo-url>
+cd calender
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Then open the URL Vite prints (usually `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Command        | Description                          |
+| -------------- | ------------------------------------ |
+| `npm run dev`  | Start Vite in development with HMR   |
+| `npm run build`| Typecheck and produce production build in `dist/` |
+| `npm run preview` | Serve the `dist/` build locally   |
+| `npm run lint` | Run ESLint on the project            |
+
+## Configuration (optional)
+
+Grid range and slot size are defined in `src/constants.ts` (`GRID_START_HOUR`, `GRID_END_HOUR`, `SLOT_MINUTES`, etc.). Session color presets live in `SESSION_COLORS`; global colors use CSS variables in `src/index.css`.
+
+## Data and privacy
+
+- Data never leaves your machine unless you export or sync it elsewhere (not implemented).
+- Clearing site data for this origin will remove stored sessions.
+
+## Project layout (high level)
+
+```
+src/
+  App.tsx                 # Main shell, view toggle, session state
+  components/
+    TimetableGrid.tsx     # Weekly grid UI
+    MonthlyCalendar2026.tsx
+    SessionEditor.tsx     # Modal create/edit
+  storage.ts              # localStorage load/save
+  sessionUtils.ts         # Overlap helpers
+  timeUtils.ts            # Grid time math
+  types.ts
 ```
 
-# refactored-octo-fortnight
-this is an all round basic tool that provides functionality such as you can create your own timetable and mark the exact day and hour on the inbuilt calender it uses a morden simplistic design that allows you to continue with your tasks seamlessly 
+## Contributing
 
-5dacd89ad424f57e937a66b97b7663d1c7f6b874
+Issues and pull requests are welcome. Please run `npm run lint` and `npm run build` before submitting changes so the project stays type-clean and lint-clean.
