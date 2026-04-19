@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -71,3 +72,8 @@ export default defineConfig([
   },
 ])
 ```
+
+# refactored-octo-fortnight
+this is an all round basic tool that provides functionality such as you can create your own timetable and mark the exact day and hour on the inbuilt calender it uses a morden simplistic design that allows you to continue with your tasks seamlessly 
+
+5dacd89ad424f57e937a66b97b7663d1c7f6b874
