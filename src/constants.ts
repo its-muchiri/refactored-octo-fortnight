@@ -18,12 +18,12 @@ export const SLOT_MINUTES = 30
 export const SLOT_HEIGHT_PX = 28
 
 export const SESSION_COLORS = [
-  '#5b8def',
-  '#34c759',
-  '#ff9f0a',
-  '#ff375f',
-  '#bf5af2',
-  '#64d2ff',
+  '#1a4d7a',
+  '#c9a227',
+  '#2d6aaf',
+  '#152238',
+  '#d4af37',
+  '#3d7ec9',
 ] as const
 
 export const STORAGE_KEY = 'calendar-timetable-sessions-v1'

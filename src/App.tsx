@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { MonthlyCalendar2026 } from './components/MonthlyCalendar2026'
 import { TimetableGrid } from './components/TimetableGrid'
 import { SessionEditor } from './components/SessionEditor'
 import { validateSessionDraft } from './validateSessionDraft'
@@ -46,8 +47,11 @@ function sessionToDraft(s: Session): SessionDraft {
   }
 }
 
+type MainView = 'timetable' | 'calendar2026'
+
 export default function App() {
   const [sessions, setSessions] = useState<Session[]>(() => loadSessions())
+  const [mainView, setMainView] = useState<MainView>('timetable')
   const [editor, setEditor] = useState<EditorState | null>(null)
   const [editorError, setEditorError] = useState<string | null>(null)
 
@@ -144,23 +148,61 @@ export default function App() {
         <div>
           <h1 className="app__title">Weekly timetable</h1>
           <p className="app__subtitle">
-            Plan recurring blocks; data stays in this browser.
+            {mainView === 'timetable'
+              ? 'Plan recurring blocks; data stays in this browser.'
+              : '2026 full-year view; dots mark weekdays that have sessions.'}
           </p>
         </div>
-        <button
-          type="button"
-          className="btn btn--primary"
-          onClick={() => openCreate(0, GRID_START_MIN + 9 * 60)}
-        >
-          Add session
-        </button>
+        <div className="app__header-actions">
+          <div className="view-toggle" role="tablist" aria-label="Main view">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mainView === 'timetable'}
+              className={
+                mainView === 'timetable'
+                  ? 'view-toggle__btn view-toggle__btn--active'
+                  : 'view-toggle__btn'
+              }
+              onClick={() => setMainView('timetable')}
+            >
+              Timetable
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mainView === 'calendar2026'}
+              className={
+                mainView === 'calendar2026'
+                  ? 'view-toggle__btn view-toggle__btn--active'
+                  : 'view-toggle__btn'
+              }
+              onClick={() => setMainView('calendar2026')}
+            >
+              2026 calendar
+            </button>
+          </div>
+          {mainView === 'timetable' ? (
+            <button
+              type="button"
+              className="btn btn--primary"
+              onClick={() => openCreate(0, GRID_START_MIN + 9 * 60)}
+            >
+              Add session
+            </button>
+          ) : null}
+        </div>
       </header>
 
-      <TimetableGrid
-        sessions={sessions}
-        onSlotClick={openCreate}
-        onSessionClick={openEdit}
-      />
+      {mainView === 'timetable' ? (
+        <TimetableGrid
+          sessions={sessions}
+          onSlotClick={openCreate}
+          onSessionClick={openEdit}
+        />
+      ) : (
+        <MonthlyCalendar2026 sessions={sessions} />
+      )}
 
       {editor ? (
         <SessionEditor
